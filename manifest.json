@@ -1,0 +1,11 @@
+{
+ "name": "Page logic",
+ "manifest_version": 2,
+ "version": "1.0",
+ "description": "Code inject to any page",
+ "browser_action": {
+   "default_icon": "1.png",
+   "default_title": "page logic",
+   "default_popup": "popup.html"
+ }
+}
