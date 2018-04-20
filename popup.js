@@ -14,8 +14,45 @@ function myFunction()
   });
   chrome.runtime.onMessage.addListener(function(request, sender) {
     if (request.action == "getSource") {
-      console.log(request.source);
-      alert(request.source);
+      //console.log(request.source);
+      var table = $(request.source).find("table")[1]
+      $("#result").html(table);
+      var windows_succeed = 0;
+      var windows_system_validation = 0;
+      var windows_NA = 0;
+      var windows_local =0;
+      var linux_secceed = 0;
+      var linux_system_validation = 0;
+      var linux_NA = 0;
+      var linux_local = 0;
+      $(table).find("tr").each(function(i, val){
+
+          var isHead = $(val).hasClass("tablesorter-headerRow");
+          if(!isHead){
+            if($($(val).find("td")[3]).hasClass("highlight-green"))
+              windows_succeed++;
+            else if($($(val).find("td")[3]).hasClass("highlight-yellow"))
+              windows_system_validation++;
+            else if ($(val).find("td")[3].innerText == "N.A.")
+              windows_NA++;
+            else
+              windows_local++;
+
+            if($($(val).find("td")[4]).hasClass("highlight-green"))
+              linux_secceed++;
+            else if($($(val).find("td")[4]).hasClass("highlight-yellow"))
+              linux_system_validation++;
+            else if ($(val).find("td")[4].innerText == "N.A.")
+              linux_NA++;
+            else
+              linux_local++;
+          }
+      })
+      var out_win = 'w_s'+windows_succeed+ ' w_na'+windows_NA+ ' w_local'+windows_local+ ' w_sysem'+windows_system_validation
+      var out_lin = 'lin_s'+linux_secceed+' lin_na'+linux_NA+' l_local'+linux_local+ ' l_system'+linux_system_validation
+      $("#lin").html(out_lin)
+      $("#win").html(out_win);
+
     }
   });
 }
